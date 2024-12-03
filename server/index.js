@@ -24,11 +24,12 @@ app.post("/register", async (req, res) => {
         const userExist = await User.findOne({email})
     
         if (userExist) {
-            return res.status(400).json({message: "User already exists."})
-        }
+            res.status(400).json({message: "User already exists."})
+        } else {
         const savedData = await newUser.save();
         console.log(savedData)
-        res.status(200).json({message: `Welcome ${name}! You are logged in..`})
+        res.status(200).json({message: `Welcome ${name}! You are registered.`})
+        }
     }
     catch (error) {
         res.status(500).json({message: error.message})
@@ -43,7 +44,7 @@ app.post("/login", async (req, res) => {
     console.log(userData)
     if(userData) {
             if(userData.password === password) {
-                res.status(200).json({message: `Welcome ${userData.uname}! You are logged in..`})
+                res.status(200).json({message: `Welcome ${userData.name}! You are logged in..`})
             } else {
                 res.status(400).json({message: "the password is incorrect"})
             }

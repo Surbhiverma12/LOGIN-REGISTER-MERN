@@ -23,13 +23,17 @@ const Signup = () => {
         e.preventDefault()
         await axios.post("http://localhost:3000/register",user)
         .then((res)=> {
-            toast.success(res.data.message,{position: "top-right"}
-            )
-            navigate("/home")
+            toast.success(res.data.message,{position: "top-right"})
+            navigate("/login")
         })
         .catch((error)=> {
-            console.log(error)
-        });
+          if (error.response && error.response.status === 400) {
+            toast.error(error.response.data.message, { position: "top-right" });
+            navigate("/login")
+          } else {
+            toast.error("Something went wrong! Please try again.", { position: "top-right" });
+          }
+    });
     }
 
   return (

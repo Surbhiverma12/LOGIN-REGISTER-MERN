@@ -30,7 +30,11 @@ const Login = () => {
             }
         })
         .catch((error)=> {
-            console.log(error)
+          if (error.response && error.response.status === 400) {
+            toast.error(error.response.data.message, { position: "top-right" });
+          } else {
+            toast.error("Something went wrong! Please try again.", { position: "top-right" });
+          }
         });
     }
 
